@@ -8,6 +8,7 @@ import webDriver.WebDriverHolder;
 import static helpers.PropertiesLoader.readPropertyFile;
 
 public class Hooks {
+
     private String url = System.getProperty("url",readPropertyFile("url"));
     private String browser = System.getProperty("browser",readPropertyFile("browser"));
     private WebDriverFactory factory = new WebDriverFactory();
@@ -19,7 +20,7 @@ public class Hooks {
         holder.setDriver(driver);
         driver.get(url);
     }
-    //@After
+    @After
     public void tearDown() {
         holder.quitDriver();
     }

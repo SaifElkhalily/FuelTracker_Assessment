@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 public class CommonPO {
     WebDriver driver;
     public CommonPO(WebDriver driver){
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
     @FindBy( how = How.XPATH, using = "//input[@name='carNumber']")
@@ -22,12 +23,18 @@ public class CommonPO {
     public WebElement fuelTypeInputField;
     @FindBy( how = How.XPATH, using = "//input[@name='dateAndTime']")
     public WebElement dateAndTimeInputField;
-    public WebElement valueOfDateAndTime(String dateAndTime){
-        String xpath = String.format("//input[@name='dateAndTime' and @value='^(20\\d\\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):([0-5]\\d)$']", dateAndTime);
+
+    public WebElement tableRow(String carNumber, String dateAndTime){
+        String xpath = String.format("//tr[td[1]='%s' and td[4]='%s']", carNumber, dateAndTime);
         return driver.findElement(By.xpath(xpath));
     }
     @FindBy( how = How.XPATH, using = "//input[@name='companyId']")
     public WebElement companyIdInputField;
     @FindBy( how = How.XPATH, using = "//button[@type='submit']")
     public WebElement editButton;
+
+    public WebElement deleteButton(String dateAndTime){
+        String xpath = String.format("//tr[td[4]='%s']/td/button[text()='Delete']", dateAndTime);
+        return driver.findElement(By.xpath(xpath));
+    }
 }

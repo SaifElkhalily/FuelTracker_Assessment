@@ -1,18 +1,13 @@
 package common;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Utils;
 
-import java.time.Duration;
+import static org.testng.AssertJUnit.*;
 
 public class CommonHelper {
-    private WebDriver driver;
+    public WebDriver driver;
     public CommonPO commonPO;
     public Utils utils;
     public JavascriptExecutor js;
@@ -50,8 +45,32 @@ public class CommonHelper {
         commonPO.companyIdInputField.sendKeys(String.valueOf(companyId));
     }
     public void clickEditButton(){
-        //actions.moveToElement(commonPO.editButton).click().perform();
         utils.waitForElementToBeClickable(commonPO.editButton);
         commonPO.editButton.click();
+    }
+
+    public void savedData(String carNumber, String date) {
+        try {
+            WebElement savedData = commonPO.tableRow(carNumber, date);
+            assertTrue("Data was saved successfully.", true);
+            System.out.println("Data has been saved successfully");
+        } catch (NoSuchElementException e) {
+            fail("Data was not saved");
+        }
+    }
+
+    public void deleteData(String date) {
+        WebElement deleteButton = commonPO.deleteButton(date);
+        deleteButton.click();
+    }
+
+    public void deletedData(String carNumber, String date) {
+        try {
+            WebElement deletedData = commonPO.tableRow(carNumber, date);
+            fail("Data was not deleted successfully.");
+                System.out.println("Data has not been deleted");
+        } catch (Exception e) {
+            System.out.println("Data has been deleted successfully");
+        }
     }
 }
